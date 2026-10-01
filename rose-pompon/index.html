@@ -1,0 +1,982 @@
+<title>Rose Pompon</title>
+<meta name="description" content="Rose Pompon, boutique de jolies choses et salon de thé à Ambérieu-en-Bugey. Déco, cadeaux, enfants, peluches, figurines. Retrait en boutique ou livraison.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=Caveat:wght@600&family=Courier+Prime:wght@700&display=swap">
+<style>
+/* Layout: boutique e-commerce — white shop floor, blush and mint (the shop's walls) as section grounds, plum ink for text, raspberry "pompon" dot as the one accent. */
+:root {
+  --paper: #ffffff;
+  --blush: #fbeef0;
+  --mint: #dcebe4;
+  --ink: #2b1d2c;
+  --muted: #776675;
+  --line: #eadfe3;
+  --rose: #d6416a;
+  --rose-deep: #b02e55;
+  --display: "Young Serif", "Georgia", serif;
+  --body: "Figtree", system-ui, -apple-system, sans-serif;
+  --script: "Caveat", "Brush Script MT", cursive;
+  --type: "Courier Prime", "Courier New", monospace;
+  --radius: 14px;
+  --wrap: 1240px;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.12; text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.eyebrow { font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--rose-deep); }
+.lede { color: var(--muted); max-width: 56ch; margin: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 14px 26px; font-weight: 600; font-size: .95rem; text-decoration: none; transition: background .2s, transform .1s, color .2s; }
+.btn:active { transform: translateY(1px); }
+.btn-dark { background: var(--ink); color: var(--paper); }
+.btn-dark:hover { background: #46334a; }
+.btn-rose { background: var(--rose); color: #fff; }
+.btn-rose:hover { background: var(--rose-deep); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--ink); color: var(--ink); padding: 12.5px 24px; }
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+.btn[disabled] { background: var(--line); color: var(--muted); cursor: not-allowed; }
+.btn-block { width: 100%; }
+
+/* Announcement + header */
+.announce { background: var(--ink); color: #f6e9ee; font-size: .8rem; text-align: center; padding: 9px 16px; letter-spacing: .02em; }
+.announce b { color: #ffc2d2; font-weight: 600; }
+header.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.head { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; height: 76px; }
+.nav { display: flex; gap: 26px; font-size: .92rem; font-weight: 500; }
+.nav a { text-decoration: none; padding-block: 6px; border-bottom: 1.5px solid transparent; }
+.nav a:hover { border-color: var(--rose); }
+.logo { display: inline-flex; align-items: baseline; gap: 2px; text-decoration: none; line-height: 1; justify-self: center; }
+.logo .r { font-family: var(--script); font-size: 2.15rem; color: #8b7b88; }
+.logo .p { font-family: var(--type); font-size: 1.3rem; letter-spacing: .02em; position: relative; }
+.logo .p i { font-style: normal; position: relative; }
+.logo .p i::after { content: ""; position: absolute; left: 50%; top: 52%; width: .42em; height: .42em; transform: translate(-50%, -50%); background: var(--rose); border-radius: 50%; }
+.tools { display: flex; justify-content: flex-end; align-items: center; gap: 6px; }
+.icon-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 0; background: transparent; position: relative; }
+.icon-btn:hover { background: var(--blush); }
+.icon-btn svg { width: 22px; height: 22px; }
+.count { position: absolute; top: 3px; right: 2px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 10px; background: var(--rose); color: #fff; font-size: .7rem; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+.menu-btn { display: none; }
+.searchbar { border-top: 1px solid var(--line); padding-block: 12px; }
+.searchbar input { width: 100%; border: 1.5px solid var(--line); border-radius: 999px; padding: 12px 20px; font: inherit; background: var(--paper); color: var(--ink); }
+.searchbar input:focus { outline: none; border-color: var(--ink); }
+.mobile-nav { border-top: 1px solid var(--line); padding-block: 8px 16px; display: grid; }
+.mobile-nav a { padding: 12px 0; text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--line); }
+
+/* Hero */
+.hero { padding-block: clamp(32px, 6vw, 72px); }
+.hero-grid { display: grid; grid-template-columns: 1.02fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.hero h1 { font-size: clamp(2.4rem, 5.6vw, 4.4rem); margin-block: 14px 20px; }
+.hero h1 em { font-style: normal; color: var(--rose); }
+.hero .lede { font-size: 1.1rem; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.hero-proof { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 34px; font-size: .88rem; color: var(--muted); }
+.hero-proof strong { color: var(--ink); font-weight: 600; }
+.stars { color: var(--rose); letter-spacing: 1px; }
+.collage { display: grid; grid-template-columns: 1.15fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; aspect-ratio: 1 / 1.02; max-width: 100%; }
+.collage figure { margin: 0; border-radius: var(--radius); overflow: hidden; position: relative; background: var(--blush); }
+.collage figure:first-child { grid-row: span 2; }
+.collage img { width: 100%; height: 100%; object-fit: cover; }
+.collage figcaption { position: absolute; left: 12px; bottom: 12px; background: rgba(255,255,255,.94); padding: 6px 12px; border-radius: 999px; font-size: .75rem; font-weight: 600; }
+
+/* Reassurance */
+.perks { border-block: 1px solid var(--line); }
+.perks-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.perk { display: flex; gap: 14px; align-items: center; padding: 22px 18px; }
+.perk + .perk { border-left: 1px solid var(--line); }
+.perk svg { flex: none; width: 30px; height: 30px; color: var(--rose); }
+.perk b { display: block; font-size: .92rem; }
+.perk span { font-size: .82rem; color: var(--muted); }
+
+/* Sections */
+section.block { padding-block: clamp(56px, 8vw, 104px); }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 36px; }
+.section-head > div { display: grid; gap: 10px; }
+
+/* Categories */
+.cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cat { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 3; text-decoration: none; color: #fff; background: var(--ink); border: 0; padding: 0; text-align: left; }
+.cat img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.cat:hover img { transform: scale(1.05); }
+.cat::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(43,29,44,.72), rgba(43,29,44,0) 55%); }
+.cat span { position: absolute; z-index: 1; left: 20px; right: 20px; bottom: 18px; display: flex; justify-content: space-between; align-items: end; gap: 10px; }
+.cat strong { font-family: var(--display); font-weight: 400; font-size: 1.35rem; line-height: 1.15; }
+.cat small { font-size: .78rem; opacity: .9; white-space: nowrap; }
+
+/* Shop */
+#boutique { background: var(--paper); }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { border: 1.5px solid var(--line); background: var(--paper); border-radius: 999px; padding: 8px 16px; font-size: .86rem; font-weight: 500; }
+.chip:hover { border-color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.shop-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+.sort { display: flex; align-items: center; gap: 8px; font-size: .86rem; color: var(--muted); }
+.sort select { font: inherit; color: var(--ink); border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 14px; background: var(--paper); }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 20px; }
+.card { display: grid; gap: 12px; align-content: start; }
+.media-wrap { position: relative; }
+.card .media { position: relative; display: block; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 5; background: var(--blush); cursor: pointer; border: 0; padding: 0; width: 100%; }
+.card .media img, .card .media .ph { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.card .media:hover img, .card .media:hover .ph { transform: scale(1.04); }
+.badges { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; z-index: 1; }
+.badge { background: var(--paper); color: var(--ink); font-size: .7rem; font-weight: 700; letter-spacing: .04em; padding: 5px 10px; border-radius: 999px; }
+.badge.new { background: var(--rose); color: #fff; }
+.badge.fr { background: var(--paper); }
+.badge.store { background: var(--ink); color: var(--paper); }
+.quick { position: absolute; right: 10px; bottom: 10px; z-index: 1; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--paper); display: grid; place-items: center; box-shadow: 0 4px 14px rgba(43,29,44,.16); transition: transform .2s, background .2s; }
+.quick:hover { background: var(--ink); color: var(--paper); transform: scale(1.06); }
+.quick svg { width: 20px; height: 20px; }
+.card .meta { display: grid; gap: 2px; min-width: 0; }
+.card .brand { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.card .name { font-weight: 500; font-size: .98rem; line-height: 1.35; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
+.card .name:hover { text-decoration: underline; text-underline-offset: 3px; }
+.card .price { font-weight: 600; font-variant-numeric: tabular-nums; }
+.card .price small { font-weight: 400; color: var(--muted); }
+.empty { grid-column: 1 / -1; text-align: center; padding: 48px 16px; color: var(--muted); }
+
+/* Placeholder visuals for products without a photo yet */
+.ph { display: grid; place-items: center; text-align: center; padding: 20px; font-family: var(--display); font-size: 1.25rem; line-height: 1.2; }
+.ph-stripes { background: repeating-linear-gradient(90deg, #f3d4dc 0 22px, #fff 22px 44px); color: var(--ink); }
+.ph-stripes span, .ph-glow span, .ph-letters span, .ph-candle span { background: var(--paper); padding: 10px 14px; border-radius: 10px; }
+.ph-glow { background: radial-gradient(circle at 50% 45%, #d9f7c9 0 18%, #9fdc8a 30%, #3d6b4a 70%); color: var(--ink); }
+.ph-letters { background: linear-gradient(135deg, #fbe3d6, #f5c6d3); color: var(--ink); }
+.ph-candle { background: radial-gradient(circle at 50% 30%, #fff4dc 0 15%, #f6dbe2 60%); color: var(--ink); }
+
+/* Editorial banner */
+.feature { background: var(--mint); }
+.feature-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.feature-media { border-radius: var(--radius); overflow: hidden; aspect-ratio: 3 / 2; max-width: 100%; }
+.feature-media img { width: 100%; height: 100%; object-fit: cover; }
+.feature-copy { display: grid; gap: 16px; justify-items: start; }
+.feature-copy p { margin: 0; max-width: 48ch; }
+
+/* Brands */
+.brands { padding-block: 44px; border-bottom: 1px solid var(--line); }
+.brands p { text-align: center; margin: 0 0 20px; }
+.brand-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 36px; }
+.brand-row span { font-family: var(--display); font-size: 1.15rem; color: #5d4c5c; white-space: nowrap; }
+
+/* Tea room */
+.tea { background: var(--blush); }
+.tea-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(28px, 6vw, 80px); align-items: start; }
+.tea-intro { display: grid; gap: 18px; position: sticky; top: 110px; }
+.tea-intro p { margin: 0; }
+.menu-card { background: var(--paper); border-radius: var(--radius); padding: clamp(24px, 4vw, 44px); display: grid; gap: 30px; }
+.menu-card h3 { font-size: 1.35rem; margin-bottom: 6px; }
+.menu-card .hint { font-size: .85rem; color: var(--muted); margin: 0 0 8px; }
+.menu-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.menu-list li { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 10px; }
+.menu-list li::after { content: none; }
+.menu-list .dots { border-bottom: 1.5px dotted #cdbcc4; transform: translateY(-4px); }
+.menu-list .p { font-variant-numeric: tabular-nums; font-weight: 600; }
+.menu-list small { display: block; color: var(--muted); font-size: .82rem; }
+.menu-note { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; margin: 0; }
+
+/* Visit */
+.visit-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.visit-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: grid; gap: 14px; align-content: start; }
+.visit-card h3 { font-size: 1.3rem; }
+.visit-card p { margin: 0; }
+.hours { width: 100%; border-collapse: collapse; font-size: .92rem; font-variant-numeric: tabular-nums; }
+.hours td { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.hours td:last-child { text-align: right; }
+.hours tr.today td { font-weight: 700; }
+.hours .closed { color: var(--muted); }
+.open-pill { display: inline-flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: var(--mint); justify-self: start; }
+.open-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2f8a5b; }
+.open-pill.shut { background: var(--blush); }
+.open-pill.shut::before { background: var(--rose); }
+.text-link { font-weight: 600; text-underline-offset: 4px; }
+
+/* Instagram */
+.insta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.insta-grid a { aspect-ratio: 1; border-radius: 10px; overflow: hidden; display: block; }
+.insta-grid img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s; }
+.insta-grid a:hover img { opacity: .85; }
+
+/* Footer */
+footer.site { background: var(--ink); color: #e9dce3; padding-block: 64px 36px; font-size: .9rem; }
+.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+.foot-grid h4 { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: #fff; margin: 0 0 14px; }
+.foot-grid ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.foot-grid a { text-decoration: none; color: #e9dce3; }
+.foot-grid a:hover { color: #fff; text-decoration: underline; }
+footer .logo .r { color: #cbb9c6; }
+footer .logo { justify-self: start; margin-bottom: 14px; }
+.newsletter { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.newsletter input { flex: 1 1 180px; min-width: 0; border-radius: 999px; border: 1px solid #5b4a5c; background: transparent; color: #fff; padding: 12px 18px; font: inherit; }
+.newsletter input::placeholder { color: #b8a6b4; }
+.foot-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid #4a384b; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: #b8a6b4; font-size: .8rem; }
+.pay-logos { display: flex; gap: 8px; }
+.pay-logos span { border: 1px solid #5b4a5c; border-radius: 6px; padding: 3px 8px; font-size: .72rem; font-weight: 700; color: #e9dce3; }
+
+/* Drawer + dialogs */
+.scrim { position: fixed; inset: 0; background: rgba(43,29,44,.45); z-index: 60; opacity: 0; pointer-events: none; transition: opacity .25s; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100%); background: var(--paper); z-index: 70; transform: translateX(100%); transition: transform .32s cubic-bezier(.2,.7,.2,1); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.drawer.on { transform: none; }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.drawer-head h3 { font-size: 1.4rem; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 8px 24px; }
+.drawer-foot { border-top: 1px solid var(--line); padding: 20px 24px; display: grid; gap: 12px; }
+.free-ship { font-size: .84rem; display: grid; gap: 8px; padding: 16px 0 8px; }
+.bar { height: 6px; border-radius: 6px; background: var(--blush); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--rose); border-radius: 6px; transition: width .4s; }
+.line-item { display: grid; grid-template-columns: 76px 1fr auto; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.line-item .thumb { width: 76px; height: 95px; border-radius: 10px; overflow: hidden; background: var(--blush); }
+.line-item .thumb img, .line-item .thumb .ph { width: 100%; height: 100%; object-fit: cover; font-size: .7rem; padding: 4px; }
+.line-item .thumb .ph span { padding: 2px 4px; border-radius: 4px; }
+.line-item h4 { margin: 0; font-size: .92rem; font-weight: 600; line-height: 1.3; }
+.line-item .var { font-size: .8rem; color: var(--muted); }
+.qty { display: inline-flex; align-items: center; border: 1.5px solid var(--line); border-radius: 999px; margin-top: 10px; }
+.qty button { width: 32px; height: 32px; border: 0; background: none; font-size: 1.05rem; }
+.qty span { min-width: 22px; text-align: center; font-size: .88rem; font-variant-numeric: tabular-nums; }
+.line-item .right { text-align: right; display: grid; gap: 8px; justify-items: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+.remove { border: 0; background: none; font-size: .78rem; color: var(--muted); text-decoration: underline; padding: 0; font-weight: 400; }
+.totals { display: grid; gap: 6px; font-size: .92rem; font-variant-numeric: tabular-nums; }
+.totals div { display: flex; justify-content: space-between; }
+.totals .grand { font-size: 1.1rem; font-weight: 700; padding-top: 8px; border-top: 1px solid var(--line); margin-top: 4px; }
+.cart-empty { text-align: center; padding: 64px 12px; display: grid; gap: 16px; justify-items: center; color: var(--muted); }
+
+dialog { border: 0; padding: 0; border-radius: 18px; width: min(980px, calc(100% - 32px)); max-height: calc(100% - 32px); color: var(--ink); background: var(--paper); box-shadow: 0 24px 70px rgba(43,29,44,.28); }
+dialog::backdrop { background: rgba(43,29,44,.5); }
+.close { position: absolute; top: 14px; right: 14px; z-index: 2; background: var(--paper); }
+.pdp { display: grid; grid-template-columns: 1fr 1fr; }
+.pdp-media { aspect-ratio: 4 / 5; background: var(--blush); max-width: 100%; }
+.pdp-media img, .pdp-media .ph { width: 100%; height: 100%; object-fit: cover; font-size: 1.8rem; }
+.pdp-info { padding: clamp(24px, 4vw, 44px); display: grid; gap: 18px; align-content: start; }
+.pdp-info h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+.pdp-price { font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pdp-info p { margin: 0; color: #4c3d4b; }
+.opt-label { font-size: .82rem; font-weight: 700; margin-bottom: 8px; }
+.opt-label span { font-weight: 400; color: var(--muted); }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opts .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.pdp-actions { display: flex; gap: 10px; align-items: center; }
+.pdp-actions .qty { margin: 0; height: 50px; }
+.pdp-actions .qty button { height: 46px; width: 40px; }
+.pdp-actions .btn { flex: 1; }
+.pdp-perks { list-style: none; padding: 16px 0 0; margin: 0; border-top: 1px solid var(--line); display: grid; gap: 8px; font-size: .86rem; color: var(--muted); }
+.pdp-perks b { color: var(--ink); font-weight: 600; }
+.store-note { background: var(--blush); border-radius: 12px; padding: 14px 16px; font-size: .9rem; }
+
+/* Checkout */
+#checkout { width: min(1040px, calc(100% - 32px)); }
+.co { display: grid; grid-template-columns: 1.35fr 1fr; min-height: 560px; }
+.co-main { padding: clamp(24px, 4vw, 44px); display: grid; gap: 22px; align-content: start; }
+.co-side { background: var(--blush); padding: clamp(24px, 4vw, 40px); display: grid; gap: 16px; align-content: start; }
+.steps { display: flex; gap: 8px; font-size: .8rem; font-weight: 600; color: var(--muted); flex-wrap: wrap; }
+.steps span { display: inline-flex; align-items: center; gap: 6px; }
+.steps span.on { color: var(--ink); }
+.steps span + span::before { content: "›"; margin-right: 6px; color: var(--line); }
+.demo { font-size: .82rem; background: #fff7e0; border: 1px solid #f1dfa6; border-radius: 10px; padding: 10px 14px; color: #6b5413; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: .82rem; font-weight: 600; }
+.field input { font: inherit; color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; width: 100%; min-width: 0; }
+.field input:focus { outline: none; border-color: var(--ink); }
+.field input[aria-invalid="true"] { border-color: var(--rose); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ship-opt { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; border: 1.5px solid var(--line); border-radius: 12px; padding: 16px 18px; cursor: pointer; }
+.ship-opt:has(input:checked) { border-color: var(--ink); background: #fffafb; }
+.ship-opt input { accent-color: var(--rose); width: 18px; height: 18px; }
+.ship-opt b { display: block; font-size: .95rem; }
+.ship-opt small { color: var(--muted); font-size: .82rem; }
+.ship-opt .p { font-weight: 600; font-variant-numeric: tabular-nums; }
+.co-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.linkish { border: 0; background: none; text-decoration: underline; text-underline-offset: 3px; color: var(--muted); padding: 0; font-size: .9rem; }
+.mini-line { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; font-size: .86rem; }
+.mini-line .thumb { width: 54px; height: 66px; border-radius: 8px; overflow: hidden; position: relative; background: var(--paper); }
+.mini-line .thumb img, .mini-line .thumb .ph { width: 100%; height: 100%; object-fit: cover; font-size: .55rem; padding: 2px; }
+.mini-line .thumb .ph span { padding: 1px 3px; border-radius: 3px; }
+.mini-line em { position: absolute; top: 3px; right: 3px; font-style: normal; background: var(--ink); color: #fff; font-size: .65rem; min-width: 17px; height: 17px; border-radius: 9px; display: grid; place-items: center; }
+.mini-line .p { font-weight: 600; font-variant-numeric: tabular-nums; }
+.secure { display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--muted); }
+.secure svg { width: 16px; height: 16px; }
+.done { text-align: center; display: grid; gap: 16px; justify-items: center; padding: 30px 10px; }
+.done .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--mint); display: grid; place-items: center; color: #2f8a5b; }
+.done .tick svg { width: 30px; height: 30px; }
+.order-no { font-family: var(--type); font-size: 1.1rem; background: var(--blush); padding: 6px 14px; border-radius: 8px; }
+.spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 999px; font-size: .9rem; z-index: 90; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; white-space: nowrap; max-width: calc(100% - 32px); overflow: hidden; text-overflow: ellipsis; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+/* Responsive */
+@media (max-width: 1080px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .perks-grid { grid-template-columns: repeat(2, 1fr); }
+  .perk:nth-child(3) { border-left: 0; }
+  .perk:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .visit-grid { grid-template-columns: 1fr 1fr; }
+  .visit-grid .visit-card:last-child { grid-column: 1 / -1; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 860px) {
+  .nav { display: none; }
+  .menu-btn { display: inline-grid; }
+  .head { height: 64px; }
+  .hero-grid, .feature-grid, .tea-grid { grid-template-columns: 1fr; }
+  .tea-intro { position: static; }
+  .cats { grid-template-columns: repeat(2, 1fr); }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+  .insta-grid { grid-template-columns: repeat(3, 1fr); }
+  .pdp, .co { grid-template-columns: 1fr; }
+  .pdp-media { aspect-ratio: 4 / 3; }
+  .co-side { order: -1; }
+}
+@media (max-width: 560px) {
+  .perk { padding: 16px 10px; gap: 10px; align-items: flex-start; }
+  .perk svg { width: 24px; height: 24px; }
+  .perk span { font-size: .76rem; }
+  .visit-grid { grid-template-columns: 1fr; }
+  .cats { gap: 10px; }
+  .cat strong { font-size: 1.05rem; }
+  .cat small { display: none; }
+  .cat span { left: 14px; bottom: 12px; }
+  .foot-grid { grid-template-columns: 1fr; }
+  .row2 { grid-template-columns: 1fr; }
+  .logo .r { font-size: 1.8rem; }
+  .logo .p { font-size: 1.1rem; }
+  .card .quick { width: 38px; height: 38px; }
+  dialog { width: 100%; max-height: 100%; height: 100%; max-width: 100%; border-radius: 0; margin: 0; }
+}
+</style>
+
+<div class="announce">Retrait <b>gratuit</b> en boutique à Ambérieu · Livraison offerte dès 60 € d'achat</div>
+
+<header class="site">
+  <div class="wrap head">
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#boutique">Boutique</a>
+      <a href="#univers">Univers</a>
+      <a href="#salon">Salon de thé</a>
+      <a href="#visite">Nous trouver</a>
+    </nav>
+    <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <a class="logo" href="#top" aria-label="Rose Pompon, accueil"><span class="r">Rose</span><span class="p">p<i>o</i>mpon</span></a>
+    <div class="tools">
+      <button class="icon-btn" id="searchBtn" type="button" aria-label="Rechercher" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      </button>
+      <button class="icon-btn" id="cartBtn" type="button" aria-label="Ouvrir le panier">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+        <span class="count" id="cartCount" hidden>0</span>
+      </button>
+    </div>
+  </div>
+  <div class="searchbar" id="searchBar" hidden>
+    <div class="wrap"><label class="sr" for="q">Rechercher un produit</label><input id="q" type="search" placeholder="Rechercher : Sonny Angel, bougie, sac à dos…" autocomplete="off"></div>
+  </div>
+  <nav class="mobile-nav wrap" id="mobileNav" hidden aria-label="Menu mobile">
+    <a href="#boutique">Boutique</a>
+    <a href="#univers">Univers</a>
+    <a href="#salon">Salon de thé</a>
+    <a href="#visite">Nous trouver</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Boutique &amp; salon de thé · Ambérieu-en-Bugey</span>
+        <h1>La boutique des <em>jolies choses</em>, maintenant chez vous.</h1>
+        <p class="lede">Déco, cadeaux, trésors pour les enfants et créations du Bugey, choisis un par un. Commandez en ligne, puis récupérez votre paquet place du Champ de Mars ou recevez-le à la maison.</p>
+        <div class="hero-cta">
+          <a class="btn btn-dark" href="#boutique">Découvrir la boutique</a>
+          <a class="btn btn-ghost" href="#salon">Le salon de thé</a>
+        </div>
+        <div class="hero-proof">
+          <span><span class="stars" aria-hidden="true">★★★★★</span> <strong>4,7/5</strong> sur Google</span>
+          <span><strong>Retrait sous 24 h</strong> en boutique</span>
+          <span><strong>Fabriqué en France</strong> à l'honneur</span>
+        </div>
+      </div>
+      <div class="collage">
+        <figure><img src="img/vitrine.jpg" alt="La vitrine de Rose Pompon décorée pour la Saint-Valentin" style="object-position: 40% 50%"><figcaption>Notre vitrine</figcaption></figure>
+        <figure><img src="img/sonny.jpg" alt="Figurines Sonny Angel Summer Vacation" style="object-position: 50% 45%"></figure>
+        <figure><img src="img/bugey.jpg" alt="Porte-clés en bois « Le Bugey, c'est chez moi ! »"></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="perks">
+    <div class="wrap perks-grid">
+      <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5V20H3z"/><path d="M9.5 20v-5.5h5V20"/></svg><div><b>Retrait gratuit</b><span>Prêt en boutique sous 24 h</span></div></div>
+      <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 7h11v9h-11zM13.5 10h4l3 3v3h-7z"/><circle cx="6.5" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg><div><b>Livraison 48–72 h</b><span>Offerte dès 60 € en France</span></div></div>
+      <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="11" rx="1"/><path d="M3.5 13h17M12 9v11M12 9c-1.5-3-5.5-3.5-5.5-1S10 9 12 9Zm0 0c1.5-3 5.5-3.5 5.5-1S14 9 12 9Z"/></svg><div><b>Paquet cadeau</b><span>Sur demande, avec un petit mot</span></div></div>
+      <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg><div><b>Paiement sécurisé</b><span>Carte bancaire, Apple Pay</span></div></div>
+    </div>
+  </div>
+
+  <section class="block" id="univers">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Nos univers</span><h2>Un petit monde à explorer</h2></div>
+        <p class="lede">De la rentrée des petits aux bougies pour la maison, tout ce que vous aimez trouver en flânant dans la boutique.</p>
+      </div>
+      <div class="cats" id="cats"></div>
+    </div>
+  </section>
+
+  <section class="block" id="boutique" style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">La boutique</span><h2>Nos jolies choses</h2></div>
+      </div>
+      <div class="shop-bar">
+        <div class="filters" id="filters" role="group" aria-label="Filtrer par univers"></div>
+        <label class="sort" for="sort">Trier
+          <select id="sort">
+            <option value="featured">Nos coups de cœur</option>
+            <option value="new">Nouveautés</option>
+            <option value="asc">Prix croissant</option>
+            <option value="desc">Prix décroissant</option>
+          </select>
+        </label>
+      </div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="block feature">
+    <div class="wrap feature-grid">
+      <div class="feature-media"><img src="img/maison-objet.jpg" alt="Au salon Maison&amp;Objet Paris 2026" style="object-position: 50% 60%"></div>
+      <div class="feature-copy">
+        <span class="eyebrow">En ce moment</span>
+        <h2>De retour de Maison&amp;Objet, les valises pleines</h2>
+        <p>Comme chaque année, nous sommes allées à Paris dénicher les nouveautés au salon Maison&amp;Objet. Nous en avons pris plein les yeux, et les trouvailles arrivent en boutique au fil des semaines. Les premières sont déjà là, comme les nouvelles mini-figurines Monchhichi Hippers.</p>
+        <button class="btn btn-dark" type="button" data-filter="new">Voir les nouveautés</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="brands">
+    <div class="wrap">
+      <p class="eyebrow">Les marques que nous aimons</p>
+      <div class="brand-row">
+        <span>Moulin Roty</span><span>Legami</span><span>Sonny Angel</span><span>Smiski</span><span>Monchhichi</span><span>Hindbag</span><span>Fresk</span><span>Poudrée Paris</span><span>Zassenhaus</span><span>L'Atelier Sophie Janière</span><span>Bertille &amp; Camomille</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="block tea" id="salon">
+    <div class="wrap tea-grid">
+      <div class="tea-intro">
+        <span class="eyebrow">Le salon de thé</span>
+        <h2>Une pause douceur au milieu des jolies choses</h2>
+        <p>Installez-vous dans notre petit salon cosy, le temps d'un thé et d'une part de gâteau. Nos douceurs viennent des pâtissiers et chocolatiers voisins, et changent selon les saisons.</p>
+        <p class="lede">Sur place uniquement, aux horaires de la boutique.</p>
+        <a class="text-link" href="#visite">Horaires et accès</a>
+      </div>
+      <div class="menu-card" aria-label="Carte du salon de thé">
+        <div>
+          <h3>Boissons chaudes</h3>
+          <ul class="menu-list">
+            <li><span>Thé ou infusion<small>Une sélection de thés en vrac</small></span><span class="dots"></span><span class="p">3,50 €</span></li>
+            <li><span>Café expresso</span><span class="dots"></span><span class="p">2,00 €</span></li>
+            <li><span>Café crème</span><span class="dots"></span><span class="p">3,00 €</span></li>
+            <li><span>Chocolat chaud<small>Avec chantilly sur demande</small></span><span class="dots"></span><span class="p">4,00 €</span></li>
+            <li><span>Chaï latte</span><span class="dots"></span><span class="p">4,50 €</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Boissons fraîches</h3>
+          <ul class="menu-list">
+            <li><span>Thé glacé maison</span><span class="dots"></span><span class="p">3,50 €</span></li>
+            <li><span>Jus de fruits artisanal</span><span class="dots"></span><span class="p">3,50 €</span></li>
+            <li><span>Limonade</span><span class="dots"></span><span class="p">3,50 €</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Gourmandises</h3>
+          <p class="hint">De nos voisins pâtissiers et chocolatiers</p>
+          <ul class="menu-list">
+            <li><span>Part de gâteau du moment</span><span class="dots"></span><span class="p">4,50 €</span></li>
+            <li><span>Cookie ou biscuit</span><span class="dots"></span><span class="p">2,50 €</span></li>
+            <li><span>Formule goûter<small>Une boisson chaude et une part de gâteau</small></span><span class="dots"></span><span class="p">7,50 €</span></li>
+          </ul>
+        </div>
+        <p class="menu-note">Carte indicative, à mettre à jour par la boutique. Demandez-nous les douceurs du jour.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="visite">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Nous trouver</span><h2>Passez nous voir</h2></div>
+        <p class="lede">Au cœur d'Ambérieu-en-Bugey, face à la place du Champ de Mars. Parking à proximité et boutique accessible en fauteuil roulant.</p>
+      </div>
+      <div class="visit-grid">
+        <div class="visit-card">
+          <h3>La boutique</h3>
+          <p>7 place du Champ de Mars<br>01500 Ambérieu-en-Bugey</p>
+          <p><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=Rose%20Pompon%207%20place%20du%20Champ%20de%20Mars%2001500%20Amb%C3%A9rieu-en-Bugey" target="_blank" rel="noopener">Voir sur Google Maps</a></p>
+        </div>
+        <div class="visit-card">
+          <h3>Horaires</h3>
+          <span class="open-pill" id="openPill">Ouvert</span>
+          <table class="hours" id="hours"></table>
+        </div>
+        <div class="visit-card">
+          <h3>Contact</h3>
+          <p>Téléphone<br><strong>09 70 92 50 90</strong></p>
+          <p>E-mail<br><strong>contact@rosepompon.fr</strong></p>
+          <p><a class="text-link" href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener">@boutique.rose.pompon</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Instagram</span><h2>Les nouveautés, en direct de la boutique</h2></div>
+        <a class="btn btn-ghost" href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener">Suivre @boutique.rose.pompon</a>
+      </div>
+      <div class="insta-grid">
+        <a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener"><img src="img/vitrine.jpg" alt="Vitrine de la Saint-Valentin" loading="lazy"></a>
+        <a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener"><img src="img/legami.jpg" alt="Nouveautés Legami" loading="lazy"></a>
+        <a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener"><img src="img/poudree.jpg" alt="Bougies Poudrée" loading="lazy"></a>
+        <a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener"><img src="img/fresk.jpg" alt="Sacs à dos Fresk pour la rentrée" loading="lazy"></a>
+        <a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener"><img src="img/maitresse.jpg" alt="Cadeaux pour la maîtresse" loading="lazy"></a>
+        <a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener"><img src="img/spatules.jpg" alt="Spatules smiley Zassenhaus" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Rose Pompon, retour en haut"><span class="r">Rose</span><span class="p">p<i>o</i>mpon</span></a>
+        <p style="margin: 0; max-width: 34ch">Boutique de jolies choses et salon de thé à Ambérieu-en-Bugey. Déco, cadeaux, enfants et créations locales.</p>
+        <form class="newsletter" id="newsletter">
+          <label class="sr" for="nlEmail">Votre e-mail</label>
+          <input id="nlEmail" type="email" placeholder="Votre e-mail pour les nouveautés" required>
+          <button class="btn btn-rose" type="submit">S'inscrire</button>
+        </form>
+      </div>
+      <div>
+        <h4>Boutique</h4>
+        <ul id="footCats"></ul>
+      </div>
+      <div>
+        <h4>Aide</h4>
+        <ul>
+          <li><a href="#visite">Retrait en boutique</a></li>
+          <li><a href="#visite">Livraison et retours</a></li>
+          <li><a href="#visite">Conditions générales de vente</a></li>
+          <li><a href="#visite">Mentions légales</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Rose Pompon</h4>
+        <ul>
+          <li>7 place du Champ de Mars</li>
+          <li>01500 Ambérieu-en-Bugey</li>
+          <li>09 70 92 50 90</li>
+          <li><a href="https://www.instagram.com/boutique.rose.pompon/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.facebook.com/Boutique.rose.pompon/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Rose Pompon · Aperçu du futur site, prix indicatifs</span>
+      <span class="pay-logos" aria-label="Moyens de paiement"><span>VISA</span><span>Mastercard</span><span>CB</span><span>Apple Pay</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Panier" aria-hidden="true">
+  <div class="drawer-head"><h3>Votre panier</h3><button class="icon-btn" type="button" id="closeCart" aria-label="Fermer le panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot"></div>
+</aside>
+
+<!-- Product dialog -->
+<dialog id="pdp" aria-label="Fiche produit">
+  <button class="icon-btn close" type="button" data-close aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <div class="pdp" id="pdpBody"></div>
+</dialog>
+
+<!-- Checkout dialog -->
+<dialog id="checkout" aria-label="Paiement">
+  <button class="icon-btn close" type="button" data-close aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <div class="co" id="coBody"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const eur = n => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const FREE_SHIP = 60, SHIP_PRICE = 5.9;
+
+  const CATS = [
+    { id: 'enfants', label: 'Enfants & rentrée', img: 'fresk.jpg', pos: '50% 30%' },
+    { id: 'peluches', label: 'Peluches & jouets', img: 'mawa.jpg', pos: '62% 50%' },
+    { id: 'figurines', label: 'Figurines à collectionner', img: 'sonny.jpg', pos: '50% 40%' },
+    { id: 'sacs', label: 'Sacs & accessoires', img: 'hindbag.jpg', pos: '50% 60%' },
+    { id: 'maison', label: 'Maison & bougies', img: 'poudree.jpg', pos: '50% 50%' },
+    { id: 'bugey', label: 'Fabriqué dans le Bugey', img: 'bugey.jpg', pos: '50% 50%' }
+  ];
+
+  // Prix indicatifs : à remplacer par les vrais prix de la boutique.
+  const PRODUCTS = [
+    { id: 'bugey-pc', name: 'Porte-clés « Le Bugey, c\'est chez moi ! »', brand: 'L\'Atelier Sophie Janière', cat: 'bugey', price: 12.9, img: 'bugey.jpg', badges: ['fr'], rank: 1,
+      desc: 'Le porte-clés en bois des Bugistes fiers de l\'être, avec sa petite maison découpée et sa cordelette nouée. Fabriqué en France.',
+      opt: { label: 'Couleur', values: ['Rose poudré', 'Vert d\'eau', 'Menthe', 'Terracotta', 'Jaune soleil'] } },
+    { id: 'poudree', name: 'Bougie en perles Poudrée', brand: 'Poudrée Paris', cat: 'maison', price: 24.9, img: 'poudree.jpg', badges: ['fr'], rank: 2,
+      desc: 'Les bougies vues dans « Qui veut être mon associé ? » sur M6. Des perles de cire végétale à verser dans le contenant de votre choix : naturelles, économiques et pratiques. 8 senteurs à découvrir en boutique.',
+      opt: { label: 'Format', values: [{ v: 'Tube 200 g', p: 24.9 }, { v: 'Tube 500 g', p: 44.9 }] },
+      opt2: { label: 'Senteur', values: ['Cèdre Marin', 'Lotus Ambré', 'Trésor de Madagascar'] } },
+    { id: 'hindbag', name: 'Collection printemps Hindbag', brand: 'Hindbag', cat: 'sacs', price: 29, img: 'hindbag.jpg', pos: '50% 45%', badges: [], rank: 3,
+      desc: 'Sacs en coton bio, fabrication éthique. Le sac bandoulière à imprimé zèbre et ses deux poches avant, la banane, le porte-monnaie, la pochette téléphone et la petite nouvelle : la grande trousse de toilette avec pochette amovible.',
+      opt: { label: 'Modèle', values: [{ v: 'Sac bandoulière', p: 69 }, { v: 'Banane', p: 45 }, { v: 'Grande trousse de toilette', p: 39 }, { v: 'Pochette téléphone', p: 32 }, { v: 'Porte-monnaie', p: 29 }] } },
+    { id: 'monchhichi', name: 'Monchhichi Hippers « Colors : Wink Series »', brand: 'Monchhichi', cat: 'figurines', price: 13.9, img: 'monchhichi.jpg', pos: '50% 50%', badges: ['new'], rank: 4, added: 9,
+      desc: 'Les nouvelles mini-figurines décoratives Monchhichi qui se posent sur le bord d\'un verre, d\'une étagère ou d\'un écran. Modèle surprise.' },
+    { id: 'legami-pc', name: 'Porte-clés peluche Super Soft', brand: 'Legami', cat: 'peluches', price: 7.95, img: 'legami.jpg', pos: '50% 88%', badges: [], rank: 5,
+      desc: 'Tout doux et à accrocher partout : sur le sac, la trousse ou les clés. Une petite attention qui fait toujours plaisir.',
+      opt: { label: 'Modèle', values: ['Panda', 'Tigre', 'Chat', 'Ourson cœur', 'Licorne'] } },
+    { id: 'fresk-sac', name: 'Sac à dos maternelle', brand: 'Fresk', cat: 'enfants', price: 39.95, img: 'fresk.jpg', pos: '50% 22%', badges: ['heart'], rank: 6,
+      desc: 'Notre coup de cœur de la rentrée. Le sac à dos idéal pour la maternelle et le CP : léger, rembourré et avec de jolis imprimés.',
+      opt: { label: 'Motif', values: ['Pissenlits rose', 'Lion', 'Oiseaux bleu marine', 'Nuages'] } },
+    { id: 'sonny', name: 'Sonny Angel « Summer Vacation »', brand: 'Sonny Angel', cat: 'figurines', price: 12.9, img: 'sonny.jpg', pos: '50% 50%', badges: ['store'], storeOnly: true, rank: 7,
+      desc: 'Les petits anges en vacances : ananas, requin, poulpe, lamantin… Chaque boîte cache une figurine surprise.' },
+    { id: 'mawa', name: 'Peluche lion « La forêt de Mawa »', brand: 'Moulin Roty', cat: 'peluches', price: 29.9, img: 'mawa.jpg', pos: '58% 50%', badges: [], rank: 8,
+      desc: 'Rrrooooar ! Le lion de la nouvelle collection Moulin Roty, à retrouver avec le guépard, le perroquet et tous les habitants de la forêt de Mawa.' },
+    { id: 'maitresse-pochette', name: 'Pochette « Super Maîtresse »', brand: 'Idées cadeaux', cat: 'sacs', price: 19.9, img: 'maitresse.jpg', pos: '45% 30%', badges: [], rank: 9,
+      desc: 'Pour remercier celles et ceux qui ont pris soin de nos enfants toute l\'année. Pochette en coton avec dragonne.' },
+    { id: 'zassenhaus', name: 'Spatule Smiley', brand: 'Zassenhaus', cat: 'maison', price: 8.9, img: 'spatules.jpg', pos: '55% 20%', badges: [], rank: 10,
+      desc: 'Une spatule en silicone avec manche en bois pour égayer la cuisine. Choisissez votre humeur.',
+      opt: { label: 'Humeur', values: ['Amoureux', 'Éclat de rire', 'Sourire', 'Gourmand'] } },
+    { id: 'legami-crayons', name: 'Crayons empilables « Dream in colour »', brand: 'Legami', cat: 'enfants', price: 9.95, img: 'legami.jpg', pos: '88% 20%', badges: [], rank: 11,
+      desc: 'Douze mines de couleur en forme de cœur qui s\'empilent les unes sur les autres. Plus besoin de taille-crayon !' },
+    { id: 'trousse-bugiste', name: 'Trousse de toilette rayée « Bugiste en vadrouille »', brand: 'Bertille & Camomille', cat: 'bugey', price: 24.9, ph: 'stripes', badges: ['fr', 'new'], rank: 12, added: 7,
+      desc: 'Pour emporter un peu du Bugey partout avec soi. Trousse rayée fabriquée en France.' },
+    { id: 'bougie-mug', name: 'Bougie artisanale dans son mug et bracelet', brand: 'Bertille & Camomille', cat: 'bugey', price: 29.9, ph: 'candle', badges: ['fr'], rank: 13,
+      desc: 'Une bougie coulée à la main dans un joli mug réutilisable, avec un bracelet offert. Fabriquée en France.' },
+    { id: 'lettres', name: 'Lettres parfumées en boîte', brand: 'Bertille & Camomille', cat: 'bugey', price: 14.9, ph: 'letters', badges: ['fr'], rank: 14,
+      desc: 'Des lettres parfumées à glisser dans un tiroir ou une armoire, présentées dans leur jolie boîte en carton.' },
+    { id: 'smiski', name: 'Smiski phosphorescent', brand: 'Smiski', cat: 'figurines', price: 12.9, ph: 'glow', badges: ['store'], storeOnly: true, rank: 15,
+      desc: 'Les petites figurines qui brillent dans le noir, en capsule à accrocher partout. Modèle surprise.' },
+    { id: 'bol-maitresse', name: 'Bol « Super maîtresse »', brand: 'Idées cadeaux', cat: 'maison', price: 14.9, img: 'maitresse.jpg', pos: '50% 95%', badges: [], rank: 16,
+      desc: 'Le bol du petit-déjeuner pour commencer la journée avec le sourire. En porcelaine.' }
+  ];
+  const PH_TEXT = { stripes: 'Bugiste en vadrouille', candle: 'Bougie & mug', letters: 'Lettres parfumées', glow: 'Smiski' };
+  const BADGE = { fr: ['fr', 'Fabriqué en France'], new: ['new', 'Nouveau'], store: ['store', 'En boutique uniquement'], heart: ['', 'Coup de cœur'] };
+  const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+
+  function visual(p, cls = '') {
+    if (p.img) return `<img src="img/${p.img}" alt="${esc(p.name)}" loading="lazy" style="object-position:${p.pos || '50% 50%'}" class="${cls}">`;
+    return `<div class="ph ph-${p.ph} ${cls}" role="img" aria-label="${esc(p.name)}"><span>${esc(PH_TEXT[p.ph])}</span></div>`;
+  }
+  const optVal = v => typeof v === 'string' ? v : v.v;
+  const fromPrice = p => p.opt && typeof p.opt.values[0] === 'object' ? Math.min(...p.opt.values.map(v => v.p)) : p.price;
+  const hasRange = p => p.opt && typeof p.opt.values[0] === 'object';
+
+  // --- State ---
+  let filter = 'all', sortBy = 'featured', query = '';
+  let cart = [];
+  try { cart = JSON.parse(localStorage.getItem('rp-cart') || '[]').filter(l => byId[l.id]); } catch (e) { cart = []; }
+  const save = () => { try { localStorage.setItem('rp-cart', JSON.stringify(cart)); } catch (e) {} };
+
+  // --- Categories ---
+  $('#cats').innerHTML = CATS.map(c => {
+    const n = PRODUCTS.filter(p => p.cat === c.id).length;
+    return `<button class="cat" type="button" data-filter="${c.id}"><img src="img/${c.img}" alt="" loading="lazy" style="object-position:${c.pos}"><span><strong>${esc(c.label)}</strong><small>${n} article${n > 1 ? 's' : ''} →</small></span></button>`;
+  }).join('');
+  $('#footCats').innerHTML = CATS.map(c => `<li><a href="#boutique" data-filter="${c.id}">${esc(c.label)}</a></li>`).join('');
+
+  const FILTERS = [{ id: 'all', label: 'Tout' }, { id: 'new', label: 'Nouveautés' }, { id: 'fr', label: 'Fabriqué en France' }, ...CATS.map(c => ({ id: c.id, label: c.label }))];
+  function renderFilters() {
+    $('#filters').innerHTML = FILTERS.map(f => `<button class="chip" type="button" data-chip="${f.id}" aria-pressed="${filter === f.id}">${esc(f.label)}</button>`).join('');
+  }
+
+  function renderGrid() {
+    const q = query.trim().toLowerCase();
+    let list = PRODUCTS.filter(p => {
+      if (filter === 'new' && !p.badges.includes('new')) return false;
+      if (filter === 'fr' && !p.badges.includes('fr')) return false;
+      if (!['all', 'new', 'fr'].includes(filter) && p.cat !== filter) return false;
+      if (q && !(p.name + ' ' + p.brand + ' ' + p.desc).toLowerCase().includes(q)) return false;
+      return true;
+    });
+    if (sortBy === 'asc') list.sort((a, b) => fromPrice(a) - fromPrice(b));
+    else if (sortBy === 'desc') list.sort((a, b) => fromPrice(b) - fromPrice(a));
+    else if (sortBy === 'new') list.sort((a, b) => (b.added || 0) - (a.added || 0) || a.rank - b.rank);
+    else list.sort((a, b) => a.rank - b.rank);
+    $('#grid').innerHTML = list.length ? list.map(p => `
+      <article class="card">
+        <div class="media-wrap">
+        <button class="media" type="button" data-open="${p.id}" aria-label="Voir ${esc(p.name)}">
+          <span class="badges">${p.badges.map(b => `<span class="badge ${BADGE[b][0]}">${BADGE[b][1]}</span>`).join('')}</span>
+          ${visual(p)}
+        </button>
+        ${p.storeOnly ? '' : `<button class="quick" type="button" data-quick="${p.id}" aria-label="Ajouter ${esc(p.name)} au panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`}
+        </div>
+        <div class="meta">
+          <span class="brand">${esc(p.brand)}</span>
+          <button class="name" type="button" data-open="${p.id}">${esc(p.name)}</button>
+          <span class="price">${hasRange(p) ? '<small>dès </small>' : ''}${eur(fromPrice(p))}</span>
+        </div>
+      </article>`).join('') : `<p class="empty">Aucun article ne correspond à « ${esc(query)} ». Essayez un autre mot, ou passez nous voir : la boutique en cache bien d'autres !</p>`;
+  }
+  function setFilter(f) {
+    filter = f; renderFilters(); renderGrid();
+  }
+
+  // --- Cart ---
+  const lineKey = (id, v) => id + '|' + (v || []).join('|');
+  function unitPrice(p, v) {
+    if (hasRange(p) && v && v[0]) { const o = p.opt.values.find(x => x.v === v[0]); if (o) return o.p; }
+    return p.price;
+  }
+  function add(id, variant, qty = 1) {
+    const p = byId[id]; if (!p || p.storeOnly) return;
+    const v = variant || [p.opt ? optVal(p.opt.values[0]) : null, p.opt2 ? optVal(p.opt2.values[0]) : null].filter(Boolean);
+    const k = lineKey(id, v);
+    const l = cart.find(x => lineKey(x.id, x.v) === k);
+    if (l) l.q += qty; else cart.push({ id, v, q: qty });
+    save(); renderCart(); toast(`${p.name} ajouté au panier`);
+  }
+  const subtotal = () => cart.reduce((s, l) => s + unitPrice(byId[l.id], l.v) * l.q, 0);
+  const itemCount = () => cart.reduce((s, l) => s + l.q, 0);
+
+  function renderCart() {
+    const n = itemCount();
+    $('#cartCount').hidden = !n; $('#cartCount').textContent = n;
+    $('#cartBtn').setAttribute('aria-label', `Ouvrir le panier (${n} article${n > 1 ? 's' : ''})`);
+    if (!cart.length) {
+      $('#cartBody').innerHTML = `<div class="cart-empty"><p>Votre panier est vide pour l'instant.</p><button class="btn btn-dark" type="button" data-goshop>Découvrir la boutique</button></div>`;
+      $('#cartFoot').innerHTML = ''; return;
+    }
+    const st = subtotal(), left = Math.max(0, FREE_SHIP - st);
+    $('#cartBody').innerHTML = `
+      <div class="free-ship">${left > 0 ? `Plus que <b>${eur(left)}</b> pour la livraison offerte` : '<b>Livraison offerte</b> sur votre commande'}<div class="bar"><i style="width:${Math.min(100, st / FREE_SHIP * 100)}%"></i></div></div>
+      ${cart.map((l, i) => { const p = byId[l.id]; return `
+      <div class="line-item">
+        <div class="thumb">${visual(p)}</div>
+        <div><h4>${esc(p.name)}</h4><div class="var">${esc([p.brand, ...l.v].join(' · '))}</div>
+          <div class="qty"><button type="button" data-dec="${i}" aria-label="Retirer un">−</button><span>${l.q}</span><button type="button" data-inc="${i}" aria-label="Ajouter un">+</button></div></div>
+        <div class="right">${eur(unitPrice(p, l.v) * l.q)}<button class="remove" type="button" data-rm="${i}">Retirer</button></div>
+      </div>`; }).join('')}`;
+    $('#cartFoot').innerHTML = `
+      <div class="totals"><div><span>Sous-total</span><span>${eur(st)}</span></div><div><span>Retrait en boutique</span><span>Gratuit</span></div></div>
+      <button class="btn btn-dark btn-block" type="button" id="toCheckout">Commander · ${eur(st)}</button>
+      <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Paiement sécurisé · Retrait ou livraison au choix à l'étape suivante</div>`;
+  }
+  function openCart() { $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden', 'false'); setTimeout(() => $('#closeCart').focus(), 50); }
+  function closeCart() { $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); $('#drawer').setAttribute('aria-hidden', 'true'); }
+
+  // --- Product dialog ---
+  let pdpState = null;
+  function openPdp(id) {
+    const p = byId[id]; if (!p) return;
+    pdpState = { id, v: [p.opt ? optVal(p.opt.values[0]) : null, p.opt2 ? optVal(p.opt2.values[0]) : null].filter(Boolean), q: 1 };
+    renderPdp(); $('#pdp').showModal();
+  }
+  function renderPdp() {
+    const p = byId[pdpState.id], price = unitPrice(p, pdpState.v);
+    const optBlock = (o, idx) => o ? `<div><div class="opt-label">${esc(o.label)} : <span>${esc(pdpState.v[idx])}</span></div><div class="opts">${o.values.map(v => `<button class="chip" type="button" data-opt="${idx}" data-val="${esc(optVal(v))}" aria-pressed="${pdpState.v[idx] === optVal(v)}">${esc(optVal(v))}${typeof v === 'object' ? ' · ' + eur(v.p) : ''}</button>`).join('')}</div></div>` : '';
+    $('#pdpBody').innerHTML = `
+      <div class="pdp-media">${visual(p)}</div>
+      <div class="pdp-info">
+        <span class="eyebrow">${esc(p.brand)}</span>
+        <h2>${esc(p.name)}</h2>
+        <div class="pdp-price">${eur(price)}</div>
+        <p>${esc(p.desc)}</p>
+        ${optBlock(p.opt, 0)}${optBlock(p.opt2, 1)}
+        ${p.storeOnly ? `<div class="store-note"><b>En boutique uniquement.</b> Ces figurines ne se réservent pas et partent très vite : passez nous voir pour découvrir les arrivages.</div><a class="btn btn-dark" href="#visite" data-close>Voir les horaires</a>` : `
+        <div class="pdp-actions">
+          <div class="qty"><button type="button" data-pq="-1" aria-label="Diminuer la quantité">−</button><span>${pdpState.q}</span><button type="button" data-pq="1" aria-label="Augmenter la quantité">+</button></div>
+          <button class="btn btn-dark" type="button" id="pdpAdd">Ajouter au panier</button>
+        </div>`}
+        <ul class="pdp-perks">
+          <li><b>Retrait gratuit</b> à Ambérieu, prêt sous 24 h ouvrées</li>
+          <li><b>Livraison</b> en 48–72 h, offerte dès ${FREE_SHIP} €</li>
+          <li><b>Paquet cadeau</b> sur demande à la commande</li>
+        </ul>
+      </div>`;
+  }
+
+  // --- Checkout ---
+  let co = null;
+  function openCheckout() {
+    if (!cart.length) return;
+    closeCart();
+    co = co && co.step < 4 ? co : { step: 1, ship: 'pickup', gift: false, f: {} };
+    co.step = 1; renderCo(); $('#checkout').showModal();
+  }
+  const shipCost = () => co.ship === 'home' && subtotal() < FREE_SHIP ? SHIP_PRICE : 0;
+  function field(id, label, type = 'text', ph = '', ac = '') {
+    return `<div class="field"><label for="co-${id}">${label}</label><input id="co-${id}" name="${id}" type="${type}" placeholder="${ph}" autocomplete="${ac}" value="${esc(co.f[id] || '')}" required></div>`;
+  }
+  function renderCo() {
+    const st = subtotal(), sc = shipCost(), total = st + sc;
+    const stepNames = ['Coordonnées', 'Retrait ou livraison', 'Paiement'];
+    const side = `<div class="co-side"><h3 style="font-size:1.25rem">Récapitulatif</h3>
+      ${cart.map(l => { const p = byId[l.id]; return `<div class="mini-line"><div class="thumb">${visual(p)}<em>${l.q}</em></div><div>${esc(p.name)}<div class="var" style="color:var(--muted);font-size:.78rem">${esc(l.v.join(' · '))}</div></div><span class="p">${eur(unitPrice(p, l.v) * l.q)}</span></div>`; }).join('')}
+      <div class="totals"><div><span>Sous-total</span><span>${eur(st)}</span></div><div><span>${co.ship === 'pickup' ? 'Retrait en boutique' : 'Livraison Colissimo'}</span><span>${sc ? eur(sc) : 'Gratuit'}</span></div>${co.gift ? '<div><span>Paquet cadeau</span><span>Offert</span></div>' : ''}<div class="grand"><span>Total TTC</span><span>${eur(total)}</span></div></div></div>`;
+    let main = '';
+    if (co.step < 4) main += `<div class="steps">${stepNames.map((s, i) => `<span class="${i + 1 === co.step ? 'on' : ''}">${s}</span>`).join('')}</div>`;
+    if (co.step === 1) main += `<h2 style="font-size:1.7rem">Vos coordonnées</h2>
+      <form id="coForm" class="co-form" style="display:grid;gap:14px" novalidate>
+        <div class="row2">${field('first', 'Prénom', 'text', '', 'given-name')}${field('last', 'Nom', 'text', '', 'family-name')}</div>
+        ${field('email', 'E-mail', 'email', 'vous@exemple.fr', 'email')}
+        ${field('tel', 'Téléphone', 'tel', '06 12 34 56 78', 'tel')}
+        <div class="co-nav"><button class="linkish" type="button" data-close>Continuer mes achats</button><button class="btn btn-dark" type="submit">Continuer</button></div>
+      </form>`;
+    if (co.step === 2) main += `<h2 style="font-size:1.7rem">Retrait ou livraison ?</h2>
+      <form id="coForm" style="display:grid;gap:12px" novalidate>
+        <label class="ship-opt"><input type="radio" name="ship" value="pickup" ${co.ship === 'pickup' ? 'checked' : ''}><span><b>Retrait en boutique</b><small>7 place du Champ de Mars, Ambérieu · prêt sous 24 h ouvrées, du mardi au samedi</small></span><span class="p">Gratuit</span></label>
+        <label class="ship-opt"><input type="radio" name="ship" value="home" ${co.ship === 'home' ? 'checked' : ''}><span><b>Livraison à domicile</b><small>Colissimo, 48–72 h · offerte dès ${FREE_SHIP} €</small></span><span class="p">${st >= FREE_SHIP ? 'Offerte' : eur(SHIP_PRICE)}</span></label>
+        <div id="addr" ${co.ship === 'home' ? '' : 'hidden'} style="display:grid;gap:14px">
+          ${field('addr', 'Adresse', 'text', '', 'street-address')}
+          <div class="row2">${field('zip', 'Code postal', 'text', '01500', 'postal-code')}${field('city', 'Ville', 'text', 'Ambérieu-en-Bugey', 'address-level2')}</div>
+        </div>
+        <label class="ship-opt"><input type="checkbox" name="gift" ${co.gift ? 'checked' : ''}><span><b>Paquet cadeau</b><small>Emballé avec soin dans la boutique</small></span><span class="p">Offert</span></label>
+        <div class="co-nav"><button class="linkish" type="button" data-back>Retour</button><button class="btn btn-dark" type="submit">Continuer vers le paiement</button></div>
+      </form>`;
+    if (co.step === 3) main += `<h2 style="font-size:1.7rem">Paiement</h2>
+      <p class="demo"><b>Aperçu :</b> le paiement en ligne n'est pas encore branché. Aucune somme ne sera débitée, vous pouvez taper n'importe quel numéro.</p>
+      <form id="coForm" style="display:grid;gap:14px" novalidate>
+        ${field('card', 'Numéro de carte', 'text', '1234 5678 9012 3456', 'cc-number')}
+        <div class="row2">${field('exp', 'Expiration', 'text', 'MM / AA', 'cc-exp')}${field('cvc', 'Cryptogramme', 'text', '123', 'cc-csc')}</div>
+        ${field('holder', 'Titulaire de la carte', 'text', '', 'cc-name')}
+        <button class="btn btn-rose btn-block" type="submit" id="payBtn">Payer ${eur(total)}</button>
+        <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Paiement chiffré et sécurisé</div>
+        <div class="co-nav"><button class="linkish" type="button" data-back>Retour</button></div>
+      </form>`;
+    if (co.step === 4) main += `<div class="done">
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+        <h2 style="font-size:1.9rem">Merci ${esc(co.f.first || '')} !</h2>
+        <span class="order-no">${co.no}</span>
+        <p class="lede" style="margin-inline:auto">${co.ship === 'pickup'
+          ? `Nous préparons votre commande avec soin. Vous recevrez un e-mail à <b>${esc(co.f.email)}</b> dès qu'elle vous attend en boutique, sous 24 h ouvrées. À très vite place du Champ de Mars !`
+          : `Votre colis part sous 24 h ouvrées. Vous recevrez le suivi Colissimo à <b>${esc(co.f.email)}</b>.`}</p>
+        <button class="btn btn-dark" type="button" data-close>Retour à la boutique</button>
+      </div>`;
+    $('#coBody').innerHTML = `<div class="co-main">${main}</div>${co.step < 4 ? side : co.summary}`;
+    const first = $('#coBody input'); if (first && co.step < 4) setTimeout(() => first.focus(), 30);
+  }
+  function collect(form) { new FormData(form).forEach((v, k) => { if (!['ship', 'gift'].includes(k)) co.f[k] = String(v).trim(); }); }
+  function validate(form) {
+    let ok = true;
+    form.querySelectorAll('input[required]').forEach(i => {
+      if (i.closest('[hidden]')) return;
+      let bad = !i.value.trim();
+      if (i.type === 'email') bad = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.value.trim());
+      if (i.name === 'card') bad = i.value.replace(/\D/g, '').length < 12;
+      i.setAttribute('aria-invalid', bad); if (bad && ok) { i.focus(); ok = false; }
+    });
+    if (!ok) toast('Vérifiez les champs en rose');
+    return ok;
+  }
+
+  // --- Hours ---
+  const HOURS = [['Lundi', null], ['Mardi', '9h30–12h · 14h–19h'], ['Mercredi', '9h30–12h · 14h–19h'], ['Jeudi', '9h30–12h · 14h–19h'], ['Vendredi', '9h30–12h · 14h–19h'], ['Samedi', '9h30–12h · 14h–19h'], ['Dimanche', null]];
+  (function renderHours() {
+    const now = new Date(), day = (now.getDay() + 6) % 7, m = now.getHours() * 60 + now.getMinutes();
+    $('#hours').innerHTML = HOURS.map(([d, h], i) => `<tr class="${i === day ? 'today' : ''}"><td>${d}</td><td class="${h ? '' : 'closed'}">${h || 'Fermé'}</td></tr>`).join('');
+    const open = HOURS[day][1] && ((m >= 570 && m < 720) || (m >= 840 && m < 1140));
+    const pill = $('#openPill');
+    pill.textContent = open ? 'Ouvert en ce moment' : 'Fermé en ce moment';
+    pill.classList.toggle('shut', !open);
+  })();
+
+  // --- Toast ---
+  let tt;
+  function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2400); }
+
+  // --- Events ---
+  document.addEventListener('click', e => {
+    const t = e.target.closest('button, a'); if (!t) return;
+    if (t.dataset.filter) { e.preventDefault(); setFilter(t.dataset.filter); closeMenus(); $('#boutique').scrollIntoView(); return; }
+    if (t.dataset.chip) return setFilter(t.dataset.chip);
+    if (t.dataset.open) return openPdp(t.dataset.open);
+    if (t.dataset.quick) {
+      const p = byId[t.dataset.quick];
+      if (p.opt) return openPdp(p.id);
+      add(p.id); openCart(); return;
+    }
+    if (t.dataset.opt !== undefined) { pdpState.v[+t.dataset.opt] = t.dataset.val; return renderPdp(); }
+    if (t.dataset.pq) { pdpState.q = Math.max(1, pdpState.q + +t.dataset.pq); return renderPdp(); }
+    if (t.id === 'pdpAdd') { add(pdpState.id, [...pdpState.v], pdpState.q); $('#pdp').close(); openCart(); return; }
+    if (t.dataset.inc !== undefined) { cart[+t.dataset.inc].q++; save(); return renderCart(); }
+    if (t.dataset.dec !== undefined) { const l = cart[+t.dataset.dec]; l.q--; if (!l.q) cart.splice(+t.dataset.dec, 1); save(); return renderCart(); }
+    if (t.dataset.rm !== undefined) { cart.splice(+t.dataset.rm, 1); save(); return renderCart(); }
+    if (t.dataset.goshop !== undefined) { closeCart(); $('#boutique').scrollIntoView(); return; }
+    if (t.id === 'toCheckout') return openCheckout();
+    if (t.dataset.back !== undefined) { co.step--; return renderCo(); }
+    if (t.dataset.close !== undefined) { const d = t.closest('dialog'); if (d) d.close(); if (t.getAttribute('href')) return; e.preventDefault(); return; }
+  });
+  $('#cartBtn').onclick = openCart;
+  $('#closeCart').onclick = closeCart;
+  $('#scrim').onclick = closeCart;
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#drawer').classList.contains('on')) closeCart(); });
+  document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+
+  function closeMenus() { $('#mobileNav').hidden = true; $('#menuBtn').setAttribute('aria-expanded', 'false'); }
+  $('#menuBtn').onclick = () => { const h = !$('#mobileNav').hidden; $('#mobileNav').hidden = h; $('#menuBtn').setAttribute('aria-expanded', String(!h)); };
+  $('#mobileNav').addEventListener('click', e => { if (e.target.closest('a')) closeMenus(); });
+  $('#searchBtn').onclick = () => { const bar = $('#searchBar'); bar.hidden = !bar.hidden; $('#searchBtn').setAttribute('aria-expanded', String(!bar.hidden)); if (!bar.hidden) $('#q').focus(); };
+  $('#q').addEventListener('input', e => { query = e.target.value; if (query && filter !== 'all') { filter = 'all'; renderFilters(); } renderGrid(); });
+  $('#q').addEventListener('keydown', e => { if (e.key === 'Enter') $('#boutique').scrollIntoView(); });
+  $('#sort').onchange = e => { sortBy = e.target.value; renderGrid(); };
+  $('#newsletter').addEventListener('submit', e => { e.preventDefault(); e.target.reset(); toast('Merci ! Vous recevrez nos nouveautés.'); });
+
+  $('#checkout').addEventListener('submit', e => {
+    e.preventDefault();
+    const form = e.target;
+    if (co.step === 2) {
+      co.ship = form.querySelector('input[name="ship"]:checked').value;
+      co.gift = form.querySelector('input[name="gift"]').checked;
+    }
+    if (!validate(form)) return;
+    collect(form);
+    if (co.step < 3) { co.step++; return renderCo(); }
+    const btn = $('#payBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Paiement en cours…';
+    setTimeout(() => {
+      co.no = 'RP-' + String(Date.now()).slice(-6);
+      // Keep the summary of what was ordered for the confirmation screen
+      const st = subtotal(), sc = shipCost();
+      co.summary = `<div class="co-side"><h3 style="font-size:1.25rem">Votre commande</h3>${cart.map(l => { const p = byId[l.id]; return `<div class="mini-line"><div class="thumb">${visual(p)}<em>${l.q}</em></div><div>${esc(p.name)}</div><span class="p">${eur(unitPrice(p, l.v) * l.q)}</span></div>`; }).join('')}<div class="totals"><div class="grand"><span>Total payé</span><span>${eur(st + sc)}</span></div></div></div>`;
+      cart = []; save(); renderCart();
+      co.step = 4; renderCo();
+    }, 1300);
+  });
+  $('#checkout').addEventListener('input', e => {
+    const i = e.target;
+    if (i.name === 'card') i.value = i.value.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
+    if (i.name === 'exp') { const d = i.value.replace(/\D/g, '').slice(0, 4); i.value = d.length > 2 ? d.slice(0, 2) + ' / ' + d.slice(2) : d; }
+    if (i.name === 'cvc') i.value = i.value.replace(/\D/g, '').slice(0, 4);
+    if (i.name === 'ship') $('#addr').hidden = i.value !== 'home';
+    if (i.getAttribute('aria-invalid') === 'true') i.setAttribute('aria-invalid', 'false');
+  });
+  $('#checkout').addEventListener('change', e => { if (e.target.name === 'ship') { co.ship = e.target.value; const f = $('#coForm'); collect(f); co.gift = f.querySelector('input[name="gift"]').checked; renderCo(); } });
+
+  renderFilters(); renderGrid(); renderCart();
+})();
+</script>
