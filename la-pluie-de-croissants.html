@@ -1,0 +1,342 @@
+<title>La Pluie de Croissants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Outfit:wght@400;600;800&display=swap">
+<style>
+/* Layout: one-screen arcade cabinet — a Paris boulangerie at dawn, awning on top, canvas below, HUD on the shop sign. */
+:root {
+  --night: #1d2350;
+  --dawn: #f4a07a;
+  --awning: #2b4cc4;
+  --cream: #fff4e2;
+  --butter: #f2b544;
+  --ink: #1a1633;
+  --display: "Shrikhand", "Georgia", serif;
+  --body: "Outfit", system-ui, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--night);
+  color: var(--cream);
+  font-family: var(--body);
+  display: flex; flex-direction: column; align-items: center;
+  padding-inline: 16px; padding-block: 12px;
+  box-sizing: border-box; overflow: hidden;
+  user-select: none; -webkit-user-select: none;
+}
+.shop { width: 100%; max-width: 560px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.awning {
+  height: 26px; border-radius: 10px 10px 0 0;
+  background: repeating-linear-gradient(90deg, var(--awning) 0 28px, var(--cream) 28px 56px);
+  -webkit-mask: radial-gradient(circle 14px at 14px 26px, transparent 13px, #000 14px) 0 0 / 28px 100%;
+          mask: radial-gradient(circle 14px at 14px 26px, transparent 13px, #000 14px) 0 0 / 28px 100%;
+}
+.sign {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--ink); padding: 10px 16px; border-inline: 3px solid var(--awning);
+}
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(1.3rem, 5vw, 1.9rem); margin: 0; color: var(--butter); text-wrap: balance; letter-spacing: .01em; }
+.hud { display: flex; gap: 14px; font-variant-numeric: tabular-nums; font-weight: 600; font-size: .95rem; }
+.hud span b { color: var(--butter); font-weight: 800; }
+.stage { position: relative; flex: 1; min-height: 0; border: 3px solid var(--awning); border-top: 0; border-radius: 0 0 14px 14px; overflow: hidden; }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: none; }
+.panel {
+  position: absolute; inset: 0; display: grid; place-items: center; padding: 20px;
+  background: color-mix(in srgb, var(--night) 72%, transparent); text-align: center;
+}
+.card { max-width: 34ch; display: grid; gap: 12px; justify-items: center; }
+.card h2 { font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 7vw, 2.4rem); margin: 0; color: var(--butter); text-wrap: balance; line-height: 1.1; }
+.card p { margin: 0; line-height: 1.5; }
+.legend { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; text-align: left; font-size: .92rem; }
+.legend i { font-style: normal; font-weight: 800; color: var(--butter); text-align: right; font-variant-numeric: tabular-nums; }
+.legend i.bad { color: #ff7b72; }
+button {
+  font: 800 1.05rem var(--body); color: var(--ink); background: var(--butter);
+  border: 0; border-radius: 999px; padding: 12px 28px; cursor: pointer;
+  box-shadow: 0 4px 0 #b37a1a; transition: transform .08s;
+}
+button:active { transform: translateY(3px); box-shadow: 0 1px 0 #b37a1a; }
+button:focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
+.hint { font-size: .8rem; opacity: .75; }
+.mute { position: absolute; top: 10px; right: 10px; background: var(--ink); color: var(--cream); box-shadow: none; padding: 6px 12px; font-size: .8rem; font-weight: 600; }
+</style>
+
+<div class="shop">
+  <div class="awning" aria-hidden="true"></div>
+  <header class="sign">
+    <h1>La Pluie de Croissants</h1>
+    <div class="hud" aria-live="polite">
+      <span>Score <b id="score">0</b></span>
+      <span>Record <b id="best">0</b></span>
+      <span id="lives" aria-label="Vies">♥♥♥</span>
+    </div>
+  </header>
+  <div class="stage" id="stage">
+    <canvas id="c"></canvas>
+    <button class="mute" id="mute" type="button">Son : oui</button>
+    <div class="panel" id="panel">
+      <div class="card">
+        <h2 id="title">Il pleut des viennoiseries sur Montmartre</h2>
+        <p id="msg">Attrape-les dans ton panier avant qu'elles touchent les pavés.</p>
+        <div class="legend" id="legend">
+          <i>+1</i><span>Croissant</span>
+          <i>+3</i><span>Pain au chocolat</span>
+          <i>+10</i><span>Croissant doré (rare !)</span>
+          <i class="bad">−♥</i><span>Croissant brûlé : évite-le</span>
+        </div>
+        <button id="go" type="button">Ouvrir la boulangerie</button>
+        <p class="hint">Souris, doigt ou flèches ← →</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const $ = id => document.getElementById(id);
+  const panel = $('panel'), scoreEl = $('score'), bestEl = $('best'), livesEl = $('lives');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, dpr = 1;
+  let best = 0; try { best = +localStorage.getItem('croissant-best') || 0; } catch (e) {}
+  bestEl.textContent = best;
+
+  // --- Son (WebAudio, démarre au premier clic) ---
+  let ac = null, muted = false;
+  function beep(f, d = .08, type = 'triangle', v = .12) {
+    if (muted || !ac) return;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(v, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + d);
+    o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d);
+  }
+  $('mute').onclick = () => { muted = !muted; $('mute').textContent = 'Son : ' + (muted ? 'non' : 'oui'); };
+
+  function resize() {
+    const r = cv.getBoundingClientRect(); dpr = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  addEventListener('resize', resize); resize();
+
+  // --- Décor : toits de Paris + Sacré-Cœur ---
+  const stars = Array.from({ length: 60 }, () => [Math.random(), Math.random() * .55, Math.random() * 1.4 + .3]);
+  function drawBg(t) {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#1d2350'); g.addColorStop(.55, '#6b4c8a'); g.addColorStop(.85, '#f4a07a'); g.addColorStop(1, '#ffd8a8');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#fff4e2';
+    for (const [x, y, s] of stars) { ctx.globalAlpha = .35 + .35 * Math.sin(t / 700 + x * 40); ctx.fillRect(x * W, y * H, s, s); }
+    ctx.globalAlpha = 1;
+    // Sacré-Cœur
+    const bx = W * .72, by = H * .78;
+    ctx.fillStyle = '#efe3f0';
+    ctx.globalAlpha = .55;
+    ctx.beginPath(); ctx.ellipse(bx, by - 46, 22, 26, 0, Math.PI, 0); ctx.fill();
+    ctx.fillRect(bx - 1.5, by - 84, 3, 14);
+    ctx.beginPath(); ctx.ellipse(bx - 34, by - 26, 12, 14, 0, Math.PI, 0); ctx.ellipse(bx + 34, by - 26, 12, 14, 0, Math.PI, 0); ctx.fill();
+    ctx.fillRect(bx - 50, by - 46, 100, 46);
+    ctx.globalAlpha = 1;
+    // Toits en zinc
+    ctx.fillStyle = '#2a2547';
+    let x = -10, i = 0;
+    ctx.beginPath(); ctx.moveTo(0, H);
+    while (x < W + 40) {
+      const w = 50 + ((i * 37) % 40), h = H * .12 + ((i * 53) % 30);
+      ctx.lineTo(x, H - h + 14); ctx.lineTo(x + 8, H - h); ctx.lineTo(x + w - 8, H - h); ctx.lineTo(x + w, H - h + 14);
+      // cheminée
+      ctx.lineTo(x + w, H - h + 14);
+      x += w; i++;
+    }
+    ctx.lineTo(W, H); ctx.closePath(); ctx.fill();
+    i = 0; x = -10;
+    while (x < W + 40) {
+      const w = 50 + ((i * 37) % 40), h = H * .12 + ((i * 53) % 30);
+      ctx.fillRect(x + w * .3, H - h - 12, 7, 14);
+      ctx.fillStyle = (i % 3 === 0) ? '#ffcf6b' : '#3a3460';
+      ctx.fillRect(x + w * .5, H - h + 24, 8, 10);
+      ctx.fillStyle = '#2a2547';
+      x += w; i++;
+    }
+  }
+
+  // --- Viennoiseries ---
+  function croissant(x, y, s, rot, col, edge) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s);
+    ctx.fillStyle = col; ctx.strokeStyle = edge; ctx.lineWidth = 1.6;
+    const segs = [[-14, 4, 7, .9], [-7, -2, 9, .5], [0, -4, 10, 0], [7, -2, 9, -.5], [14, 4, 7, -.9]];
+    for (const [sx, sy, r, a] of segs) {
+      ctx.beginPath(); ctx.ellipse(sx, sy, r * .75, r, a, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function painChoc(x, y, s, rot) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s);
+    ctx.fillStyle = '#e09a3e'; ctx.strokeStyle = '#8a4b14'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.roundRect(-16, -9, 32, 18, 6); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#4a2410'; ctx.fillRect(-9, -9, 4, 18); ctx.fillRect(5, -9, 4, 18);
+    ctx.restore();
+  }
+  const KINDS = [
+    { k: 'c', w: 70, pts: 1 }, { k: 'p', w: 14, pts: 3 }, { k: 'g', w: 3, pts: 10 }, { k: 'b', w: 18, pts: 0 }
+  ];
+  function pick() {
+    let r = Math.random() * KINDS.reduce((a, b) => a + b.w, 0);
+    for (const K of KINDS) { if ((r -= K.w) < 0) return K; }
+    return KINDS[0];
+  }
+
+  // --- État ---
+  let items, parts, floats, basket, score, lives, combo, running = false, last = 0, spawnT = 0, elapsed = 0, keys = {}, shake = 0;
+  function reset() {
+    items = []; parts = []; floats = []; score = 0; lives = 3; combo = 0; elapsed = 0; spawnT = 0;
+    basket = { x: W / 2, tx: W / 2, w: 86 };
+    updHud();
+  }
+  function updHud() {
+    scoreEl.textContent = score;
+    livesEl.textContent = '♥'.repeat(lives) + '♡'.repeat(Math.max(0, 3 - lives));
+  }
+
+  function spawn() {
+    const K = pick();
+    items.push({ ...K, x: 20 + Math.random() * (W - 40), y: -20, vy: 70 + Math.random() * 40 + elapsed * 4, rot: Math.random() * 6, vr: (Math.random() - .5) * 3, sway: Math.random() * 6 });
+  }
+  function burst(x, y, col, n = 12) {
+    if (reduce) n = 4;
+    for (let i = 0; i < n; i++) parts.push({ x, y, vx: (Math.random() - .5) * 220, vy: -Math.random() * 220, life: .7, col });
+  }
+  const CHEERS = ['Miam !', 'Oh là là !', 'Magnifique !', 'Formidable !', 'C\'est chaud !', 'Bravo le boulanger !'];
+
+  function step(dt) {
+    elapsed += dt;
+    spawnT -= dt;
+    if (spawnT <= 0) { spawn(); spawnT = Math.max(.28, 1.1 - elapsed * .018) * (.6 + Math.random() * .7); }
+    if (keys.ArrowLeft) basket.tx -= 520 * dt;
+    if (keys.ArrowRight) basket.tx += 520 * dt;
+    basket.tx = Math.max(basket.w / 2, Math.min(W - basket.w / 2, basket.tx));
+    basket.x += (basket.tx - basket.x) * Math.min(1, dt * 18);
+    const by = H - 46;
+    for (let i = items.length - 1; i >= 0; i--) {
+      const it = items[i];
+      it.y += it.vy * dt; it.rot += it.vr * dt; it.x += Math.sin(elapsed * 2 + it.sway) * 20 * dt;
+      if (it.y > by - 10 && it.y < by + 14 && Math.abs(it.x - basket.x) < basket.w / 2 + 6) {
+        items.splice(i, 1);
+        if (it.k === 'b') {
+          lives--; combo = 0; shake = .35; burst(it.x, by, '#3b2a20', 16);
+          floats.push({ x: it.x, y: by - 20, t: 'Beurk, brûlé !', life: 1, bad: true });
+          beep(140, .25, 'sawtooth', .1);
+          updHud(); if (lives <= 0) return gameOver();
+        } else {
+          combo++;
+          const mult = combo >= 10 ? 3 : combo >= 5 ? 2 : 1;
+          score += it.pts * mult;
+          burst(it.x, by, it.k === 'g' ? '#ffe066' : '#f2b544', it.k === 'g' ? 30 : 10);
+          const txt = it.k === 'g' ? 'CROISSANT DORÉ ! +' + 10 * mult : (combo % 5 === 0 ? CHEERS[(combo / 5) % CHEERS.length | 0] + ' x' + mult : '+' + it.pts * mult);
+          floats.push({ x: it.x, y: by - 20, t: txt, life: 1 });
+          beep(it.k === 'g' ? 880 : 440 + Math.min(combo, 12) * 40, it.k === 'g' ? .3 : .09);
+          if (it.k === 'g') setTimeout(() => beep(1320, .25), 90);
+          updHud();
+        }
+      } else if (it.y > H + 20) {
+        items.splice(i, 1);
+        if (it.k !== 'b') { combo = 0; floats.push({ x: it.x, y: H - 30, t: 'Splatch', life: .8, bad: true }); beep(200, .06, 'square', .05); }
+      }
+    }
+    for (let i = parts.length - 1; i >= 0; i--) { const p = parts[i]; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 500 * dt; p.life -= dt; if (p.life <= 0) parts.splice(i, 1); }
+    for (let i = floats.length - 1; i >= 0; i--) { const f = floats[i]; f.y -= 40 * dt; f.life -= dt; if (f.life <= 0) floats.splice(i, 1); }
+    shake = Math.max(0, shake - dt);
+  }
+
+  function drawBasket() {
+    const x = basket.x, y = H - 46, w = basket.w;
+    ctx.save(); ctx.translate(x, y);
+    ctx.fillStyle = '#b5752e'; ctx.strokeStyle = '#6e4114'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(-w / 2, 0); ctx.lineTo(w / 2, 0); ctx.lineTo(w / 2 - 10, 30); ctx.lineTo(-w / 2 + 10, 30); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = 'rgba(110,65,20,.55)'; ctx.lineWidth = 1.5;
+    for (let i = -w / 2 + 10; i < w / 2 - 4; i += 10) { ctx.beginPath(); ctx.moveTo(i, 2); ctx.lineTo(i + 4, 28); ctx.stroke(); }
+    ctx.beginPath(); ctx.moveTo(-w / 2 + 6, 12); ctx.lineTo(w / 2 - 6, 12); ctx.stroke();
+    // nappe vichy
+    ctx.fillStyle = '#d8333a'; ctx.fillRect(-w / 2 - 2, -5, w + 4, 7);
+    ctx.fillStyle = '#fff4e2'; for (let i = -w / 2; i < w / 2; i += 8) ctx.fillRect(i, -5, 4, 3.5);
+    ctx.restore();
+    // béret du boulanger qui tient le panier
+    ctx.fillStyle = '#1a1633'; ctx.beginPath(); ctx.ellipse(x, y - 14, 12, 5, -.15, 0, Math.PI * 2); ctx.fill();
+    ctx.fillRect(x - 1, y - 22, 2, 5);
+  }
+
+  function draw(t) {
+    ctx.save();
+    if (shake > 0 && !reduce) ctx.translate((Math.random() - .5) * 10 * shake, (Math.random() - .5) * 10 * shake);
+    drawBg(t);
+    if (items) {
+      for (const it of items) {
+        if (it.k === 'c') croissant(it.x, it.y, 1, it.rot, '#e8a94c', '#9a5a17');
+        else if (it.k === 'g') { ctx.shadowColor = '#ffe066'; ctx.shadowBlur = 18; croissant(it.x, it.y, 1.15, it.rot, '#ffd23f', '#c48a00'); ctx.shadowBlur = 0; }
+        else if (it.k === 'b') croissant(it.x, it.y, 1, it.rot, '#3b2a20', '#120a06');
+        else painChoc(it.x, it.y, 1, it.rot);
+      }
+      for (const p of parts) { ctx.globalAlpha = Math.max(0, p.life / .7); ctx.fillStyle = p.col; ctx.fillRect(p.x, p.y, 4, 4); }
+      ctx.globalAlpha = 1;
+      drawBasket();
+      ctx.textAlign = 'center';
+      for (const f of floats) {
+        ctx.globalAlpha = Math.max(0, f.life); ctx.font = '400 18px Shrikhand, Georgia, serif';
+        ctx.fillStyle = f.bad ? '#ff7b72' : '#fff4e2'; ctx.strokeStyle = '#1a1633'; ctx.lineWidth = 4;
+        ctx.strokeText(f.t, f.x, f.y); ctx.fillText(f.t, f.x, f.y);
+      }
+      ctx.globalAlpha = 1;
+      if (running && combo >= 5) {
+        ctx.font = '800 14px Outfit, system-ui, sans-serif'; ctx.fillStyle = '#ffe066'; ctx.textAlign = 'left';
+        ctx.fillText('Série ' + combo + ' · x' + (combo >= 10 ? 3 : 2), 12, 22);
+      }
+    }
+    ctx.restore();
+  }
+
+  function loop(t) {
+    const dt = Math.min(.05, (t - last) / 1000 || 0); last = t;
+    if (running) step(dt);
+    draw(t);
+    requestAnimationFrame(loop);
+  }
+
+  function gameOver() {
+    running = false;
+    let rec = false;
+    if (score > best) { best = score; rec = true; try { localStorage.setItem('croissant-best', best); } catch (e) {} bestEl.textContent = best; }
+    const verdicts = score < 15 ? 'Apprenti mitron. Le four t\'attend demain à 4 h.'
+      : score < 50 ? 'Pas mal ! Tu as nourri tout l\'immeuble.'
+      : score < 120 ? 'Meilleur Ouvrier de France, catégorie panier.'
+      : 'Légende de Montmartre. On parlera de toi au comptoir.';
+    $('title').textContent = rec ? 'Nouveau record : ' + score + ' !' : score + ' points';
+    $('msg').textContent = verdicts;
+    $('legend').hidden = true;
+    $('go').textContent = 'Encore une fournée';
+    panel.hidden = false;
+    beep(330, .15); setTimeout(() => beep(262, .3), 150);
+  }
+
+  function start() {
+    if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    resize(); reset(); panel.hidden = true; running = true;
+    beep(523, .08); setTimeout(() => beep(784, .12), 90);
+  }
+  $('go').onclick = start;
+
+  function moveTo(clientX) { if (!basket) return; const r = cv.getBoundingClientRect(); basket.tx = clientX - r.left; }
+  cv.addEventListener('pointermove', e => moveTo(e.clientX));
+  cv.addEventListener('pointerdown', e => moveTo(e.clientX));
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { keys[e.key] = true; e.preventDefault(); }
+    if ((e.key === ' ' || e.key === 'Enter') && !running && document.activeElement !== $('go')) start();
+  });
+  addEventListener('keyup', e => { keys[e.key] = false; });
+
+  // Démo en attente : quelques croissants tombent derrière l'écran d'accueil
+  reset();
+  for (let i = 0; i < 6; i++) items.push({ ...KINDS[i % 4 === 3 ? 1 : 0], x: W * (.12 + i * .15), y: H * (.15 + (i % 3) * .2), vy: 0, rot: i, vr: 0, sway: 0 });
+  requestAnimationFrame(loop);
+})();
+</script>
